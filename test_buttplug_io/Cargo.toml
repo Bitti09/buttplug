@@ -1,0 +1,16 @@
+[package]
+name = "test_buttplug_io"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+buttplug_client = { path = "../crates/buttplug_client" }
+buttplug_client_in_process = { path = "../crates/buttplug_client_in_process" }
+buttplug_server = { path = "../crates/buttplug_server" }
+buttplug_server_device_config = { path = "../crates/buttplug_server_device_config" }
+buttplug_server_hwmgr_btleplug = { path = "../crates/buttplug_server_hwmgr_btleplug" }
+buttplug_core = { path = "../crates/buttplug_core" }
+tokio = { version = "1.0", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+futures = "0.3"

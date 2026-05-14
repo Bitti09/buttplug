@@ -48,71 +48,73 @@ impl ProtocolInitializer for LeloF1sV3Initializer {
   ) -> Result<Arc<dyn ProtocolHandler>, ButtplugDeviceError> {
     let sec_endpoint = Endpoint::Whitelist;
 
-    // The Lelo F1s V3 has a very specific pairing flow:
-    // * First the device is turned on in BLE mode (long press)
-    // * Then the security endpoint (Whitelist) needs to be read (which we can do via subscribe)
-    // * If it returns 0x00,00,00,00,00,00,00,00 the connection isn't not authorised
-    // * To authorize, the password must be writen to the characteristic.
-    // * If the password is unknown (buttplug lacks a storage mechanism right now), the power button
-    //   must be pressed to send the password
-    // * The password must not be sent whilst subscribed to the endpoint
-    // * Once the password has been sent, the endpoint can be read for status again
-    // * If it returns 0x00,00,00,00,00,00,00,00 the connection is authorised
-    let mut event_receiver = hardware.event_stream();
-    hardware
-      .subscribe(&HardwareSubscribeCmd::new(
-        LELO_F1S_V3_PROTOCOL_UUID,
-        sec_endpoint,
-      ))
-      .await?;
-    let noauth: Vec<u8> = vec![0; 8];
-    let authed: Vec<u8> = vec![1, 0, 0, 0, 0, 0, 0, 0];
+    let pwd_res = hardware.read_value(&crate::device::hardware::HardwareReadCmd::new(LELO_F1S_V3_PROTOCOL_UUID, sec_endpoint, 128, 500)).await?;
+    let mut n = pwd_res.data().to_vec();
+    
+    info!("Lelo F1s V3 Auth: Initial read {} bytes: {:?}", n.len(), n);
+
+    if !n.is_empty() && n[0] == 0x01 {
+      debug!("Lelo F1s V3 is already authorised! (Found 0x01)");
+      return Ok(Arc::new(LeloF1sV3::new(true)));
+    }
 
     info!("Lelo F1s V3 waiting for auth: Tap the device's power button to complete connection.");
     println!("\n\n=======================================================");
     println!("⚠️  PLEASE TAP THE POWER BUTTON ON THE F1SV3 NOW!  ⚠️");
     println!("=======================================================\n\n");
 
-    loop {
-      let event = event_receiver.recv().await;
-      if let Ok(HardwareEvent::Notification(_, _, n)) = event {
-        if n.eq(&noauth) {
-          info!("Lelo F1s V3 explicitly reported not authorised.");
-        } else if n.eq(&authed) {
-          debug!("Lelo F1s V3 is authorised!");
-          return Ok(Arc::new(LeloF1sV3::new(true)));
-        } else {
-          debug!("Lelo F1s V3 gave us a password: {:?}", n);
-          // Can't send whilst subscribed
-          hardware
-            .unsubscribe(&HardwareUnsubscribeCmd::new(
-              LELO_F1S_V3_PROTOCOL_UUID,
-              sec_endpoint,
-            ))
-            .await?;
-          // Send with response
-          hardware
-            .write_value(&HardwareWriteCmd::new(
-              &[LELO_F1S_V3_PROTOCOL_UUID],
-              sec_endpoint,
-              n,
-              true,
-            ))
-            .await?;
-          // Get back to the loop
-          hardware
-            .subscribe(&HardwareSubscribeCmd::new(
-              LELO_F1S_V3_PROTOCOL_UUID,
-              sec_endpoint,
-            ))
-            .await?;
+    let mut event_receiver = hardware.event_stream();
+    hardware.subscribe(&HardwareSubscribeCmd::new(LELO_F1S_V3_PROTOCOL_UUID, sec_endpoint)).await?;
+
+    let noauth: Vec<u8> = vec![0; 8];
+    let mut password = Vec::new();
+
+    info!("Waiting for password notification... (Timeout in 30 seconds)");
+    for _ in 0..300 {
+        if let Ok(event) = event_receiver.try_recv() {
+            if let HardwareEvent::Notification(_, _, data) = event {
+                if data.len() == 8 && data != noauth {
+                    info!("Lelo F1s V3 Auth: Received password via NOTIFY: {:?}", data);
+                    password = data;
+                    break;
+                }
+            }
         }
-      } else {
+        tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+    }
+
+    hardware.unsubscribe(&HardwareUnsubscribeCmd::new(LELO_F1S_V3_PROTOCOL_UUID, sec_endpoint)).await?;
+
+    if password.is_empty() {
         return Err(ButtplugDeviceError::ProtocolSpecificError(
-          "LeloF1sV3".to_owned(),
-          "Lelo F1s V3 didn't provided valid security handshake".to_owned(),
+            "LeloF1sV3".to_owned(),
+            "Did not receive a valid password notification within the timeout.".to_owned(),
         ));
-      }
+    }
+
+    info!("Writing password back to device...");
+    hardware
+      .write_value(&HardwareWriteCmd::new(
+        &[LELO_F1S_V3_PROTOCOL_UUID],
+        sec_endpoint,
+        password,
+        true,
+      ))
+      .await?;
+
+    tokio::time::sleep(std::time::Duration::from_millis(1000)).await;
+    let verify_res = hardware.read_value(&crate::device::hardware::HardwareReadCmd::new(LELO_F1S_V3_PROTOCOL_UUID, sec_endpoint, 128, 500)).await?;
+    let v_data = verify_res.data();
+
+    if !v_data.is_empty() && v_data[0] == 0x01 {
+      debug!("Lelo F1s V3 is authorised! Result starts with 0x01.");
+      return Ok(Arc::new(LeloF1sV3::new(true)));
+    } else {
+      info!("Device returned {:?} instead of starting with 0x01. Handshake failed.", v_data);
+      return Err(ButtplugDeviceError::ProtocolSpecificError(
+        "LeloF1sV3".to_owned(),
+        "Handshake failed. Result was not 01. Did you press the power button?".to_owned(),
+      ));
     }
   }
 }
