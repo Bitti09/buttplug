@@ -27,7 +27,7 @@ defaults:
   - id: 20c16f8d-f44b-460c-b9a5-5ed2ea019a91
     input:
       accelerometer:
-        value: [[-10000, 10000]]
+        value: [[-1024, 1024], [-1024, 1024], [-1024, 1024]]
         command: [Read, Subscribe]
     index: 4
   - id: 4bee4212-6401-4187-8a0d-adc95949ae96
