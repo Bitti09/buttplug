@@ -1,7 +1,6 @@
 # Buttplug
 
-[![Patreon donate button](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/qdot)
-[![Github donate button](https://img.shields.io/badge/github-donate-ff69b4.svg)](https://www.github.com/sponsors/qdot)
+
 [![Discourse Forums](https://img.shields.io/discourse/status?label=buttplug.io%20forums&server=https%3A%2F%2Fdiscuss.buttplug.io)](https://discuss.buttplug.io)
 [![Discord](https://img.shields.io/discord/353303527587708932.svg?logo=discord)](https://discord.buttplug.io)
 [![bluesky](https://img.shields.io/bluesky/followers/buttplug.io)](https://bsky.app/profile/buttplug.io)
@@ -143,12 +142,7 @@ on one of our social media accounts if you would like to stay anonymous and out 
 the repo) and receiving approval to develop code based on an issue. Any random or non-issue pull
 requests will most likely be closed without merging.
 
-If you'd like to contribute in a non-technical way, we need money to keep up with supporting the
-latest and greatest hardware. We have multiple ways to donate!
 
-- [Patreon](https://patreon.com/qdot)
-- [Github Sponsors](https://github.com/sponsors/qdot)
-- [Ko-Fi](https://ko-fi.com/qdot76367)
 
 ## Inclusion of LLM Generated Code
 
