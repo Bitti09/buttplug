@@ -15,13 +15,13 @@ defaults:
   - id: 85ef9a37-abfa-4ab6-8119-1f7ebb82796d
     input:
       pressure:
-        value: [[0, 100]]
+        value: [[0, 4096]]
         command: [Read, Subscribe]
     index: 2
   - id: 1428e6be-d0d4-4c09-aba1-62b7174ddd2e
     input:
       button:
-        value: [[0, 1]]
+        value: [[0, 255]]
         command: [Read, Subscribe]
     index: 3
   - id: 20c16f8d-f44b-460c-b9a5-5ed2ea019a91
