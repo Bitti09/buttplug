@@ -173,6 +173,70 @@ impl ProtocolHandler for LeloF1sV3 {
     ])
   }
 
+  fn handle_input_read_cmd(
+    &self,
+    device_index: u32,
+    device: Arc<Hardware>,
+    feature_index: u32,
+    feature_id: uuid::Uuid,
+    sensor_type: buttplug_core::message::InputType,
+  ) -> futures::future::BoxFuture<'_, Result<buttplug_core::message::InputReadingV4, ButtplugDeviceError>> {
+    let endpoint = match sensor_type {
+      buttplug_core::message::InputType::Pressure => Endpoint::RxPressure,
+      buttplug_core::message::InputType::Depth => Endpoint::RxTouch,
+      buttplug_core::message::InputType::Accelerometer => Endpoint::RxAccel,
+      buttplug_core::message::InputType::Button => Endpoint::Generic1,
+      buttplug_core::message::InputType::Battery => {
+        return crate::device::protocol::ProtocolHandler::handle_battery_level_cmd(self, device_index, device, feature_index, feature_id);
+      }
+      _ => return futures::future::ready(Err(ButtplugDeviceError::UnhandledCommand(
+        "Unsupported sensor type".to_owned()
+      ))).boxed(),
+    };
+
+    let device_clone = device.clone();
+    async move {
+      let result = device_clone.read_value(&crate::device::hardware::HardwareReadCmd::new(feature_id, endpoint, 128, 500)).await?;
+      let data = result.data();
+      let reading = match sensor_type {
+        buttplug_core::message::InputType::Pressure => {
+          if data.len() >= 8 && data[3] == 0xFF {
+            let pressure = (data[4] as u32) << 24 | (data[5] as u32) << 16 | (data[6] as u32) << 8 | (data[7] as u32);
+            buttplug_core::message::InputTypeReading::Pressure(buttplug_core::message::InputValue::new(pressure / 100))
+          } else {
+            return Err(ButtplugDeviceError::ProtocolSpecificError("LeloF1sV3".to_owned(), "Invalid pressure data length".to_owned()));
+          }
+        },
+        buttplug_core::message::InputType::Depth => {
+          if data.len() >= 2 {
+            buttplug_core::message::InputTypeReading::Depth(buttplug_core::message::InputValue::new(data[1]))
+          } else {
+            return Err(ButtplugDeviceError::ProtocolSpecificError("LeloF1sV3".to_owned(), "Invalid depth data length".to_owned()));
+          }
+        },
+        buttplug_core::message::InputType::Accelerometer => {
+          if data.len() >= 6 {
+            let x = ((data[0] as i16) << 8 | data[1] as i16) as i32;
+            let y = ((data[2] as i16) << 8 | data[3] as i16) as i32;
+            let z = ((data[4] as i16) << 8 | data[5] as i16) as i32;
+            buttplug_core::message::InputTypeReading::Accelerometer(buttplug_core::message::InputValue::new([x, y, z]))
+          } else {
+            return Err(ButtplugDeviceError::ProtocolSpecificError("LeloF1sV3".to_owned(), "Invalid accel data length".to_owned()));
+          }
+        },
+        buttplug_core::message::InputType::Button => {
+          if data.len() >= 1 {
+            buttplug_core::message::InputTypeReading::Button(buttplug_core::message::InputValue::new(data[0]))
+          } else {
+            return Err(ButtplugDeviceError::ProtocolSpecificError("LeloF1sV3".to_owned(), "Invalid button data length".to_owned()));
+          }
+        },
+        _ => unreachable!(),
+      };
+      Ok(buttplug_core::message::InputReadingV4::new(device_index, feature_index, reading))
+    }.boxed()
+  }
+
   fn handle_input_subscribe_cmd(
     &self,
     device_index: u32,

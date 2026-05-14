@@ -16,25 +16,25 @@ defaults:
     input:
       pressure:
         value: [[0, 100]]
-        command: [Subscribe]
+        command: [Read, Subscribe]
     index: 2
   - id: 1428e6be-d0d4-4c09-aba1-62b7174ddd2e
     input:
       button:
         value: [[0, 1]]
-        command: [Subscribe]
+        command: [Read, Subscribe]
     index: 3
   - id: 20c16f8d-f44b-460c-b9a5-5ed2ea019a91
     input:
       accelerometer:
         value: [[-10000, 10000]]
-        command: [Subscribe]
+        command: [Read, Subscribe]
     index: 4
   - id: 4bee4212-6401-4187-8a0d-adc95949ae96
     input:
       depth:
-        value: [[0, 100]]
-        command: [Subscribe]
+        value: [[0, 8]]
+        command: [Read, Subscribe]
     index: 5
   - id: 5ec8d1c7-c711-4fbd-8e50-9366e8557b44
     input:
@@ -62,6 +62,6 @@ communication:
         rxpressure: 00000a0a-0000-1000-8000-00805f9b34fb
         rxtouch: 00000a0b-0000-1000-8000-00805f9b34fb
         rxaccel: 00000a0c-0000-1000-8000-00805f9b34fb
-        generic1: 00000a0d-0000-1000-8000-00805f9b34fb
+        generic1: 00000aa4-0000-1000-8000-00805f9b34fb
       0000180f-0000-1000-8000-00805f9b34fb:
         rxblebattery: 00002a19-0000-1000-8000-00805f9b34fb

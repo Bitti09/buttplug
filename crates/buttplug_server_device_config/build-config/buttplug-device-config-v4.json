@@ -1,7 +1,7 @@
 {
   "version": {
     "major": 4,
-    "minor": 208
+    "minor": 209
   },
   "protocols": {
     "activejoy": {
@@ -11522,6 +11522,7 @@
             "input": {
               "pressure": {
                 "command": [
+                  "Read",
                   "Subscribe"
                 ],
                 "value": [
@@ -11539,6 +11540,7 @@
             "input": {
               "button": {
                 "command": [
+                  "Read",
                   "Subscribe"
                 ],
                 "value": [
@@ -11556,6 +11558,7 @@
             "input": {
               "accelerometer": {
                 "command": [
+                  "Read",
                   "Subscribe"
                 ],
                 "value": [
@@ -11573,6 +11576,7 @@
             "input": {
               "depth": {
                 "command": [
+                  "Read",
                   "Subscribe"
                 ],
                 "value": [

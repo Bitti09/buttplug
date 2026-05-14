@@ -46,7 +46,7 @@ log = "0.4.29"
 getset = "0.1.6"
 jsonschema = { version = "0.45.0", default-features = false }
 cfg-if = "1.0.4"
-tokio = { version = "1.50.0", features = ["sync", "macros"] }
+tokio = { version = "1.50.0", features = ["sync", "macros", "time"] }
 async-stream = "0.3.6"
 strum_macros = "0.28.0"
 strum = "0.28.0"
