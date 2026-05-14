@@ -12,7 +12,7 @@ defaults:
     output:
       vibrate:
         value: [0, 100]
-    description: "Vibration Motor"
+    description: "Second Motor"
     index: 1
   - id: 85ef9a37-abfa-4ab6-8119-1f7ebb82796d
     input:

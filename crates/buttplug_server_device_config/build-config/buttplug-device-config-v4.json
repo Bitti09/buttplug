@@ -1,7 +1,7 @@
 {
   "version": {
     "major": 4,
-    "minor": 214
+    "minor": 215
   },
   "protocols": {
     "activejoy": {
@@ -11506,7 +11506,7 @@
             }
           },
           {
-            "description": "Vibration Motor",
+            "description": "Second Motor",
             "id": "05fc758b-a3fe-4156-b3ae-9cdcb9ae95c6",
             "index": 1,
             "output": {
