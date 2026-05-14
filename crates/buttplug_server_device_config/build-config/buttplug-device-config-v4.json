@@ -1,7 +1,7 @@
 {
   "version": {
     "major": 4,
-    "minor": 213
+    "minor": 214
   },
   "protocols": {
     "activejoy": {
@@ -11493,6 +11493,7 @@
       "defaults": {
         "features": [
           {
+            "description": "Main Motor",
             "id": "90bd67a5-4601-4c49-97bb-0845ab7011ba",
             "index": 0,
             "output": {
@@ -11505,6 +11506,7 @@
             }
           },
           {
+            "description": "Vibration Motor",
             "id": "05fc758b-a3fe-4156-b3ae-9cdcb9ae95c6",
             "index": 1,
             "output": {
@@ -11517,6 +11519,7 @@
             }
           },
           {
+            "description": "Pressure Sensor",
             "id": "85ef9a37-abfa-4ab6-8119-1f7ebb82796d",
             "index": 2,
             "input": {
@@ -11535,6 +11538,7 @@
             }
           },
           {
+            "description": "Physical Buttons",
             "id": "1428e6be-d0d4-4c09-aba1-62b7174ddd2e",
             "index": 3,
             "input": {
@@ -11553,6 +11557,7 @@
             }
           },
           {
+            "description": "3-Axis Accelerometer",
             "id": "20c16f8d-f44b-460c-b9a5-5ed2ea019a91",
             "index": 4,
             "input": {
@@ -11579,6 +11584,7 @@
             }
           },
           {
+            "description": "Capacitive Depth Sensor",
             "id": "4bee4212-6401-4187-8a0d-adc95949ae96",
             "index": 5,
             "input": {
@@ -11597,6 +11603,7 @@
             }
           },
           {
+            "description": "Battery Level",
             "id": "5ec8d1c7-c711-4fbd-8e50-9366e8557b44",
             "index": 6,
             "input": {

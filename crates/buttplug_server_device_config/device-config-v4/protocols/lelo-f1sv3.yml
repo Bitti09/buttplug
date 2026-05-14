@@ -6,41 +6,48 @@ defaults:
     output:
       vibrate:
         value: [0, 100]
+    description: "Main Motor"
     index: 0
   - id: 05fc758b-a3fe-4156-b3ae-9cdcb9ae95c6
     output:
       vibrate:
         value: [0, 100]
+    description: "Vibration Motor"
     index: 1
   - id: 85ef9a37-abfa-4ab6-8119-1f7ebb82796d
     input:
       pressure:
         value: [[0, 4096]]
         command: [Read, Subscribe]
+    description: "Pressure Sensor"
     index: 2
   - id: 1428e6be-d0d4-4c09-aba1-62b7174ddd2e
     input:
       button:
         value: [[0, 255]]
         command: [Read, Subscribe]
+    description: "Physical Buttons"
     index: 3
   - id: 20c16f8d-f44b-460c-b9a5-5ed2ea019a91
     input:
       accelerometer:
         value: [[-1024, 1024], [-1024, 1024], [-1024, 1024]]
         command: [Read, Subscribe]
+    description: "3-Axis Accelerometer"
     index: 4
   - id: 4bee4212-6401-4187-8a0d-adc95949ae96
     input:
       depth:
         value: [[0, 8]]
         command: [Read, Subscribe]
+    description: "Capacitive Depth Sensor"
     index: 5
   - id: 5ec8d1c7-c711-4fbd-8e50-9366e8557b44
     input:
       battery:
         value: [[0, 100]]
         command: [Read]
+    description: "Battery Level"
     index: 6
   id: 36adf7ce-98bf-4fad-b916-b44d20a5d9e1
 configurations:
