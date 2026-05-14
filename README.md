@@ -1,5 +1,7 @@
 # Buttplug
 
+> [!NOTE]
+> **Custom Fork:** This repository is a fork of the original [Buttplug Rust Library](https://github.com/buttplugio/buttplug) by Nonpolynomial Labs. It contains custom modifications, specifically the full hardware authentication handshake and protocol support for the **LELO F1S V3**.
 
 [![Discourse Forums](https://img.shields.io/discourse/status?label=buttplug.io%20forums&server=https%3A%2F%2Fdiscuss.buttplug.io)](https://discuss.buttplug.io)
 [![Discord](https://img.shields.io/discord/353303527587708932.svg?logo=discord)](https://discord.buttplug.io)
