@@ -433,6 +433,7 @@ pub enum ServerDeviceFeatureInput {
   Pressure(ServerDeviceFeatureInputProperties),
   Depth(ServerDeviceFeatureInputProperties),
   Position(ServerDeviceFeatureInputProperties),
+  Accelerometer(ServerDeviceFeatureInputProperties),
 }
 
 impl ServerDeviceFeatureInput {
@@ -447,7 +448,8 @@ impl ServerDeviceFeatureInput {
       | Self::Button(p)
       | Self::Pressure(p)
       | Self::Depth(p)
-      | Self::Position(p) => p,
+      | Self::Position(p)
+      | Self::Accelerometer(p) => p,
     }
   }
 
@@ -494,7 +496,7 @@ macro_rules! impl_input_type_conversions {
   };
 }
 
-impl_input_type_conversions![Battery, Rssi, Button, Pressure, Depth, Position,];
+impl_input_type_conversions![Battery, Rssi, Button, Pressure, Depth, Position, Accelerometer];
 
 #[derive(Clone, Debug, Getters, CopyGetters, Serialize, Deserialize)]
 #[serde(default)]

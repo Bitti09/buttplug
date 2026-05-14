@@ -40,6 +40,8 @@ pub enum InputTypeReading {
   Rssi(InputValue<i8>),
   Button(InputValue<u8>),
   Pressure(InputValue<u32>),
+  Depth(InputValue<u8>),
+  Accelerometer(InputValue<[i32; 3]>),
 }
 
 impl From<InputTypeReading> for InputType {
@@ -49,6 +51,8 @@ impl From<InputTypeReading> for InputType {
       InputTypeReading::Rssi(_) => InputType::Rssi,
       InputTypeReading::Button(_) => InputType::Button,
       InputTypeReading::Pressure(_) => InputType::Pressure,
+      InputTypeReading::Depth(_) => InputType::Depth,
+      InputTypeReading::Accelerometer(_) => InputType::Accelerometer,
     }
   }
 }

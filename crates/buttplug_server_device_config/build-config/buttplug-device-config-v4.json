@@ -1,7 +1,7 @@
 {
   "version": {
     "major": 4,
-    "minor": 197
+    "minor": 208
   },
   "protocols": {
     "activejoy": {
@@ -11400,8 +11400,7 @@
           "btle": {
             "names": [
               "F1SV2A",
-              "F1SV2X",
-              "F1SV3"
+              "F1SV2X"
             ],
             "services": {
               "0000fff0-0000-1000-8000-00805f9b34fb": {
@@ -11423,7 +11422,66 @@
             "F1SV2X"
           ],
           "name": "Lelo F1s V2"
-        },
+        }
+      ],
+      "defaults": {
+        "features": [
+          {
+            "id": "90bd67a5-4601-4c49-97bb-0845ab7011ba",
+            "index": 0,
+            "output": {
+              "vibrate": {
+                "value": [
+                  0,
+                  100
+                ]
+              }
+            }
+          },
+          {
+            "id": "05fc758b-a3fe-4156-b3ae-9cdcb9ae95c6",
+            "index": 1,
+            "output": {
+              "vibrate": {
+                "value": [
+                  0,
+                  100
+                ]
+              }
+            }
+          }
+        ],
+        "id": "108d5cfe-2155-477f-b1b6-c48da6c4b7d8",
+        "name": "Lelo F1s V2"
+      }
+    },
+    "lelo-f1sv3": {
+      "communication": [
+        {
+          "btle": {
+            "names": [
+              "F1SV3"
+            ],
+            "services": {
+              "0000180f-0000-1000-8000-00805f9b34fb": {
+                "rxblebattery": "00002a19-0000-1000-8000-00805f9b34fb"
+              },
+              "0000fff0-0000-1000-8000-00805f9b34fb": {
+                "generic0": "00000a11-0000-1000-8000-00805f9b34fb",
+                "generic1": "00000a0d-0000-1000-8000-00805f9b34fb",
+                "rx": "00000a04-0000-1000-8000-00805f9b34fb",
+                "rxaccel": "00000a0c-0000-1000-8000-00805f9b34fb",
+                "rxpressure": "00000a0a-0000-1000-8000-00805f9b34fb",
+                "rxtouch": "00000a0b-0000-1000-8000-00805f9b34fb",
+                "tx": "0000fff1-0000-1000-8000-00805f9b34fb",
+                "txvibrate": "0000fff2-0000-1000-8000-00805f9b34fb",
+                "whitelist": "00000a10-0000-1000-8000-00805f9b34fb"
+              }
+            }
+          }
+        }
+      ],
+      "configurations": [
         {
           "id": "36adf7ce-98bf-4fad-b916-b44d20a5d9e1",
           "identifier": [
@@ -11457,10 +11515,95 @@
                 ]
               }
             }
+          },
+          {
+            "id": "85ef9a37-abfa-4ab6-8119-1f7ebb82796d",
+            "index": 2,
+            "input": {
+              "pressure": {
+                "command": [
+                  "Subscribe"
+                ],
+                "value": [
+                  [
+                    0,
+                    100
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "id": "1428e6be-d0d4-4c09-aba1-62b7174ddd2e",
+            "index": 3,
+            "input": {
+              "button": {
+                "command": [
+                  "Subscribe"
+                ],
+                "value": [
+                  [
+                    0,
+                    1
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "id": "20c16f8d-f44b-460c-b9a5-5ed2ea019a91",
+            "index": 4,
+            "input": {
+              "accelerometer": {
+                "command": [
+                  "Subscribe"
+                ],
+                "value": [
+                  [
+                    -10000,
+                    10000
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "id": "4bee4212-6401-4187-8a0d-adc95949ae96",
+            "index": 5,
+            "input": {
+              "depth": {
+                "command": [
+                  "Subscribe"
+                ],
+                "value": [
+                  [
+                    0,
+                    100
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "id": "5ec8d1c7-c711-4fbd-8e50-9366e8557b44",
+            "index": 6,
+            "input": {
+              "battery": {
+                "command": [
+                  "Read"
+                ],
+                "value": [
+                  [
+                    0,
+                    100
+                  ]
+                ]
+              }
+            }
           }
         ],
-        "id": "108d5cfe-2155-477f-b1b6-c48da6c4b7d8",
-        "name": "Lelo F1s V2"
+        "id": "36adf7ce-98bf-4fad-b916-b44d20a5d9e1",
+        "name": "Lelo F1s V3"
       }
     },
     "lelo-harmony": {
@@ -22281,6 +22424,68 @@
         "features": [],
         "id": "83e29d7a-6f35-499a-90f8-dfba8b674379",
         "name": "Twerking Butt"
+      }
+    },
+    "utimi": {
+      "communication": [
+        {
+          "btle": {
+            "names": [
+              "Utimi*"
+            ],
+            "services": {
+              "0000ffa0-0000-1000-8000-00805f9b34fb": {
+                "tx": "0000ffa1-0000-1000-8000-00805f9b34fb"
+              }
+            }
+          }
+        }
+      ],
+      "configurations": [
+        {
+          "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80",
+          "identifier": [
+            "Utimi"
+          ],
+          "name": "Utimi Prostate Massager"
+        },
+        {
+          "id": "4a418af2-74c6-4b98-9a21-80690aae4cec",
+          "identifier": [
+            "Utimi000040"
+          ],
+          "name": "Utimi KnotVibe ThrustMaster"
+        }
+      ],
+      "defaults": {
+        "features": [
+          {
+            "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+            "index": 0,
+            "output": {
+              "vibrate": {
+                "value": [
+                  0,
+                  255
+                ]
+              }
+            }
+          },
+          {
+            "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+            "index": 1,
+            "output": {
+              "oscillate": {
+                "value": [
+                  0,
+                  255
+                ]
+              }
+            }
+          }
+        ],
+        "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+        "name": "Utimi Device"
       }
     },
     "vibcrafter": {
